@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>滑动门</title>
+	<style type="text/css">
+		#box{
+			height:220px;
+			position: relative;
+			border: 1px pink solid;
+			overflow: hidden;
+			margin: 0 auto;
+		}
+		#box img{
+			display: block;
+			position: absolute;
+			left: 0;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<img src="../../../img/1.jpg">
+		<img src="../../../img/2.jpg">
+		<img src="../../../img/3.jpg">
+		<img src="../../../img/4.jpg">
+	</div>
+</body>
+	<script type="text/javascript">
+window.onload=function(){
+
+		var box=document.getElementById('box');
+		var img=box.getElementsByTagName('img');
+
+// 规定每一张图片门露出的宽度
+var outWidth=100;
+//  图片的宽度
+// var imgWidth=img[1].offsetWidth;
+
+//获取box的宽度
+var boxWidth=img[1].offsetWidth+outWidth*(img.length-1);
+
+box.style.width=boxWidth+"px";
+
+
+// 每一道门起始位置(此处第一张全部显示，从i=1开始)
+function star(){
+	for (var i = 1; i < img.length; i++) {
+	img[i].style.left=img[0].offsetWidth+(i-1)*outWidth+"px";
+	}
+}
+star()
+
+
+// 实现动态效果
+// 此处先计算图片门每次滑动的距离
+var goWidth=img[0].offsetWidth-outWidth;
+
+for (var i = 0; i < img.length; i++) {
+	//  在这里，我们需要立即调用i值，所以用一个立即调用函数  语法为（function(i){})(i);
+	(function(i){
+
+
+		img[i].onmouseover=function(){
+		// 第一张图片鼠标放上去是没有变化的，所以，在这里我们可以把起始位置封装成函数，在这里调用
+			star();
+		// 图片动态效果从第二张开始，随意循环从j=1 开始
+
+		
+		for (var j= 1; j <=i; j++) {
+			img[j].style.left=parseInt(img[j].style.left)-goWidth+"px";
+		}
+	}
+
+
+})(i);	
+
+	
+}
+
+
+
+
+}
+</script>
+</html>
